@@ -1,5 +1,5 @@
-select max(processed_date) - min(processed_date)         as data_period_days,
-       (max(processed_date) - min(processed_date)) / 365 as data_period_years,
-       min(processed_date)                               as first_event_day,
-       max(processed_date)                               as last_event_day
-from product_sales;
+SELECT MAX(processed_date) - MIN(processed_date)         AS data_period_days,
+       (MAX(processed_date) - MIN(processed_date)) / 365 AS data_period_years,
+       MIN(processed_date)                               AS first_event_day,
+       MAX(processed_date)                               AS last_event_day
+FROM product_sales;
