@@ -38,15 +38,19 @@ WITH t1 AS (SELECT *,
                 ) gs)
 SELECT 'MRR'                                                                                            AS metric_name,
        TO_CHAR(TO_CHAR(processed_date, 'YYYY-MM-01')::date + (index || ' months')::INTERVAL, 'YYYY-MM') AS dt,
-       SUM(value)
+       SUM(value)                                                                                       AS value
 FROM t2
 GROUP BY dt
 UNION ALL
 SELECT 'ARR'                                                                    AS metric_name,
        TO_CHAR((processed_date + (index || ' months')::INTERVAL)::date, 'YYYY') AS dt,
-       SUM(value)                                                               AS sum
+       SUM(value)                                                               AS value
 FROM t2
 GROUP BY dt
+UNION ALL
+SELECT 'ARPU'                                                                                           AS metric_name,
+       TO_CHAR(TO_CHAR(processed_date, 'YYYY-MM-01')::date + (index || ' months')::INTERVAL, 'YYYY-MM') AS dt,
+       ROUND(SUM(value) / COUNT(customer), 2)                                                           AS value
+FROM t2
+GROUP BY metric_name, dt
 ORDER BY dt;
-
-
