@@ -1,7 +1,7 @@
 -- Number of users with Upgrade
-select count(distinct customer)                                             as all_customers,
-       count(distinct case when license_type = 'Upgrade' then customer end) as customers_with_upgrade,
-       count(case when license_type = 'Upgrade' then customer end)          as all_upgrades,
-       round(count(distinct case when license_type = 'Upgrade' then customer end)::numeric / count(distinct customer) *
-             100, 2)                                                        as share_customers_with_upgrade
-from product_sales;
+SELECT COUNT(DISTINCT customer)                                             AS all_customers,
+       COUNT(DISTINCT CASE WHEN license_type = 'Upgrade' THEN customer END) AS customers_with_upgrade,
+       COUNT(CASE WHEN license_type = 'Upgrade' THEN customer END)          AS all_upgrades,
+       ROUND(COUNT(DISTINCT CASE WHEN license_type = 'Upgrade' THEN customer END)::numeric / COUNT(DISTINCT customer) *
+             100, 2)                                                        AS share_customers_with_upgrade
+FROM product_sales;
