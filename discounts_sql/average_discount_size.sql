@@ -1,11 +1,11 @@
 SELECT product_code,
        customer_status,
-       round(AVG(discount_in_usd)::numeric, 2) AS avg_discount,
-       round(avg(amount_in_usd)::numeric, 2)   as avg_amount,
-       round(sum(discount_in_usd)::numeric, 2) as total_discount,
-       round(sum(amount_in_usd)::numeric, 2)   as total_amount
+       ROUND(AVG(discount_in_usd)::numeric, 2) AS avg_discount,
+       ROUND(AVG(amount_in_usd)::numeric, 2)   AS avg_amount,
+       ROUND(SUM(discount_in_usd)::numeric, 2) AS total_discount,
+       ROUND(SUM(amount_in_usd)::numeric, 2)   AS total_amount
 FROM product_sales
 WHERE discount_in_usd > 0
-  and discount_id is null
+  AND discount_id IS NULL
 GROUP BY product_code, customer_status
-ORDER BY product_code desc, avg_discount DESC;
+ORDER BY product_code DESC, avg_discount DESC;

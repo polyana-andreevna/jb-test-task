@@ -1,9 +1,9 @@
-select customer,
+SELECT customer,
        processed_date,
        discount_in_usd,
        amount_in_usd
-from product_sales
-where customer_status = 'new customer'
-  and discount_id is null
-  and discount_in_usd > 0
-  and product_code = 'X';
+FROM product_sales
+WHERE customer_status = 'new customer'
+  AND discount_id IS NULL
+  AND discount_in_usd > 0
+  AND product_code = 'X';
