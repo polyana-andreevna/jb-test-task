@@ -23,6 +23,8 @@ def make_chart(dataframe, x_column, y_column, chart_type=ChartType.LINE, title='
         plt.title(title)
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
+        plt.xticks(range(0, len(dataframe[x_column]), 3), rotation=45)
+
         plt.show()
     except Exception as e:
         print(f"Error creating chart: {e}")
