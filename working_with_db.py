@@ -11,7 +11,7 @@ def connect_to_local_postgresql(db_name, user, password, host='localhost', port=
             host=host,
             port=port
         )
-        print("Connection to DB successful")
+        # print("Connection to DB successful")
         return connection
     except Exception as e:
         print(f"Error connecting to DB: {e}")
