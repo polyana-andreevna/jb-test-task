@@ -8,7 +8,13 @@ class ChartType(Enum):
     SCATTER = 'scatter'
 
 
-def make_chart(dataframe, x_column, y_column, chart_type=ChartType.LINE, title='', xlabel='', ylabel=''):
+def make_chart(
+        dataframe, x_column, y_column,
+        chart_type=ChartType.LINE,
+        title='', xlabel='', ylabel='',
+        xticks=-1,
+        xticks_rotation=0,
+):
     try:
         if chart_type == ChartType.LINE:
             plt.plot(dataframe[x_column], dataframe[y_column])
@@ -23,7 +29,8 @@ def make_chart(dataframe, x_column, y_column, chart_type=ChartType.LINE, title='
         plt.title(title)
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
-        plt.xticks(range(0, len(dataframe[x_column]), 3), rotation=45)
+        if xticks > 0:
+            plt.xticks(range(0, len(dataframe[x_column]), xticks), rotation=xticks_rotation)
 
         plt.show()
     except Exception as e:
