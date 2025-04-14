@@ -36,21 +36,23 @@ WITH t1 AS (SELECT *,
                      CROSS JOIN LATERAL (
                 SELECT GENERATE_SERIES(0, subscription_duration) AS index
                 ) gs)
-SELECT 'MRR'                                                                                            AS metric_name,
-       TO_CHAR(TO_CHAR(processed_date, 'YYYY-MM-01')::date + (index || ' months')::INTERVAL, 'YYYY-MM') AS dt,
-       SUM(value)                                                                                       AS value
-FROM t2
-GROUP BY dt
-UNION ALL
-SELECT 'ARR'                                                                    AS metric_name,
-       TO_CHAR((processed_date + (index || ' months')::INTERVAL)::date, 'YYYY') AS dt,
-       SUM(value)                                                               AS value
-FROM t2
-GROUP BY dt
-UNION ALL
-SELECT 'ARPU'                                                                                           AS metric_name,
-       TO_CHAR(TO_CHAR(processed_date, 'YYYY-MM-01')::date + (index || ' months')::INTERVAL, 'YYYY-MM') AS dt,
-       ROUND(SUM(value) / COUNT(customer), 2)                                                           AS value
-FROM t2
-GROUP BY metric_name, dt
+SELECT *
+FROM (SELECT 'MRR'                                                                                            AS metric_name,
+             TO_CHAR(TO_CHAR(processed_date, 'YYYY-MM-01')::date + (index || ' months')::INTERVAL, 'YYYY-MM') AS dt,
+             SUM(value)                                                                                       AS value
+      FROM t2
+      GROUP BY dt
+      UNION ALL
+      SELECT 'ARR'                                                                    AS metric_name,
+             TO_CHAR((processed_date + (index || ' months')::INTERVAL)::date, 'YYYY') AS dt,
+             SUM(value)                                                               AS value
+      FROM t2
+      GROUP BY dt
+      UNION ALL
+      SELECT 'ARPU'                                                                                           AS metric_name,
+             TO_CHAR(TO_CHAR(processed_date, 'YYYY-MM-01')::date + (index || ' months')::INTERVAL, 'YYYY-MM') AS dt,
+             SUM(value) / COUNT(DISTINCT customer)                                                            AS value
+      FROM t2
+      GROUP BY dt) all_metrics
+WHERE dt BETWEEN '2018-12-31' AND '2020-12-31'
 ORDER BY dt;
